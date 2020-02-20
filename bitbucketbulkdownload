@@ -1,0 +1,43 @@
+
+import json
+import requests
+import os
+from subprocess import Popen, PIPE
+
+"""
+This program is for all repo download from bitbucket cloud from atlassian.
+Please change: yoursitename to whatever your sitename is on cloud
+"""
+
+baseurl = "https://bitbucket.org/api/2.0/repositories/yoursitename?pagelen=100"
+headers = {'Content-Type': 'application/json'}
+
+username = 'username'
+password = 'password'
+
+abc = []
+r = requests.get(baseurl, auth=(username, password), headers=headers)
+json_checker = json.loads(r.text)
+for i in json_checker:
+    if i == "values":
+        for j in json_checker["values"]:
+            for qq in j:
+                if qq == "links":
+                    for oneqq in j[qq]:
+                        if oneqq == "clone":
+                           
+                            for done in j[qq][oneqq]:
+                         
+                                for done2 in j[qq][oneqq]:
+                                  
+                                
+                                    for done3 in done:
+                                        
+                                        if done3 == "href":
+                                            if done2["name"] == "https":
+                                        
+                                                
+                                                action = (os.system("git clone --mirror" + done2[done3]))
+                                                print(action)
+
+    
